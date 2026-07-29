@@ -1,0 +1,30 @@
+diff --git a/next.config.ts b/next.config.ts
+index 38b8e65..8ee6235 100644
+--- a/next.config.ts
++++ b/next.config.ts
+@@ -1,7 +1,11 @@
+ import type { NextConfig } from 'next'
+ 
++// PLAYGROUND OVERLAY (agentos-nimble): basePath only.
++// The Nimble console owns "/" on the protected origin and embeds this app at
++// "/ui". Everything else is upstream.
+ const nextConfig: NextConfig = {
+-  devIndicators: false
++  devIndicators: false,
++  basePath: '/ui'
+ }
+ 
+ export default nextConfig
+diff --git a/src/store.ts b/src/store.ts
+index 4056a11..85b4fb6 100644
+--- a/src/store.ts
++++ b/src/store.ts
+@@ -81,7 +81,7 @@ export const useStore = create<Store>()(
+             typeof messages === 'function' ? messages(state.messages) : messages
+         })),
+       chatInputRef: { current: null },
+-      selectedEndpoint: 'http://localhost:7777',
++      selectedEndpoint: 'http://127.0.0.1:8800', // PLAYGROUND OVERLAY: same-origin so the session cookie applies
+       setSelectedEndpoint: (selectedEndpoint) =>
+         set(() => ({ selectedEndpoint })),
+       authToken: '',

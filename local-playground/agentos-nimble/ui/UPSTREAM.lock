@@ -1,0 +1,38 @@
+# Official Agno Agent UI — pinned upstream
+
+repository:  https://github.com/agno-agi/agent-ui
+commit:      6dad9593fca6756e1813e4f4b3b2620be6377691
+committed:   2026-05-08T11:36:54Z
+subject:     fix: update Next.js security patches (#149)
+branch:      main (this commit was main's HEAD when the spike was written)
+
+Framework versions carried by that commit (from its package.json):
+  next          15.5.18
+  react         ^18.3.1
+  typescript    ^5
+  tailwindcss   ^3.4.1
+  zustand       ^5.0.3
+
+Endpoints this commit calls (src/api/routes.ts), all of which AgentOS 2.8.5 serves:
+  GET    {base}/agents
+  POST   {base}/agents/{agent_id}/runs        (multipart form; SSE when stream=true)
+  GET    {base}/health
+  GET    {base}/sessions
+  GET    {base}/sessions/{session_id}/runs
+  DELETE {base}/sessions/{session_id}
+
+Verified properties of this commit that the playground relies on:
+
+  * fetch() is issued with no `credentials` option, so it defaults to
+    "same-origin" — the HttpOnly session cookie is sent automatically when the
+    UI is served from the same origin as the API. This is why the playground
+    needs no authentication code inside the UI.
+
+  * The zustand store persists ONLY `selectedEndpoint` (see `partialize` in
+    src/store.ts). The `authToken` field is in-memory and is never written to
+    localStorage. The playground leaves `authToken` empty regardless, and
+    authenticates at the edge instead.
+
+The clone is materialised by ./setup.sh into ./agent-ui/, which is gitignored —
+the same "vendored nested clone" convention this workspace uses for
+integrations/*/upstream-repo/ and sdks/*/checkout/.

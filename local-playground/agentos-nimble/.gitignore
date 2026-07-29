@@ -1,0 +1,17 @@
+# The official Agent UI is a vendored upstream clone, materialised by ui/setup.sh.
+# Same convention as integrations/*/upstream-repo/ and sdks/*/checkout/.
+ui/agent-ui/
+
+# Runtime artefacts
+.logs/
+.data/
+*.db
+
+# Never commit an environment file: it is where a real Nimble key would live.
+.env
+.env.*
+!.env.example
+
+__pycache__/
+*.pyc
+.pytest_cache/

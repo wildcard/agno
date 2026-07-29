@@ -1,0 +1,3 @@
+ next.config.ts | 6 +++++-
+ src/store.ts   | 2 +-
+ 2 files changed, 6 insertions(+), 2 deletions(-)
